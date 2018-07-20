@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Contacts">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ListView
+                android:id="@+id/listView"
+                android:divider="@color/colorPrimaryDark"
+                android:dividerHeight="2dp"
+                android:layout_width="match_parent"
+                android:layout_height="486dp" />
+
+            <Button
+                android:id="@+id/addContacts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="addContacts"
+                android:textStyle="bold"
+                android:text="ADD CONTACTS" />
+
+            <Button
+                android:id="@+id/removeContacts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="removeContacts"
+                android:textStyle="bold"
+                android:text="REMOVE CONTACTS"
+                />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
+
+
