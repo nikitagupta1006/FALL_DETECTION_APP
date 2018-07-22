@@ -28,7 +28,8 @@
         <activity android:name=".Contacts" />
         <activity android:name=".RemoveContacts" />
         <activity android:name=".SendMessage" />
-        <activity android:name=".PhoneCall"></activity>
+        <activity android:name=".PhoneCall" />
+        <activity android:name=".FallDetect"></activity>
     </application>
 
 </manifest>
