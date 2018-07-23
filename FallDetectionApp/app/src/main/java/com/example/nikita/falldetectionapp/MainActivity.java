@@ -9,28 +9,28 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button mSend, mCall;
+   // Button mSend, mCall;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mSend = (Button)findViewById(R.id.send);
-        mCall = (Button)findViewById(R.id.Call);
-        mSend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), SendMessage.class);
-                startActivity(intent);
-            }
-        });
-
-        mCall.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), PhoneCall.class);
-                startActivity(intent);
-            }
-        });
+//        mSend = (Button)findViewById(R.id.send);
+//        mCall = (Button)findViewById(R.id.Call);
+//        mSend.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(getApplicationContext(), SendMessage.class);
+//                startActivity(intent);
+//            }
+//        });
+//
+//        mCall.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(getApplicationContext(), PhoneCall.class);
+//                startActivity(intent);
+//            }
+//        });
     }
     public void FetchContacts(View view) {
         Intent readContacts = new Intent(getApplicationContext(), Contacts.class);
@@ -39,6 +39,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void notifyUser(View view) {
   Toast.makeText(getApplicationContext(), "Application has started!! ", Toast.LENGTH_SHORT).show();
+  Intent intent = new Intent(getApplicationContext(), FallDetect.class);
+  startActivity(intent);
     }
+
+
 
 }

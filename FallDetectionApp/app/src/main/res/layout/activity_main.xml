@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@android:color/holo_green_light"
     tools:context=".MainActivity">
 
 
@@ -19,31 +20,38 @@
         android:text="Manage Contacts" />
 
     <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="110dp"
+        android:text="View Contacts"/>
+
+    <Button
         android:id="@+id/startApp"
         android:text="Start App"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textStyle="bold"
         android:layout_marginLeft="130dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="50dp"
         android:gravity="center"
         android:onClick="notifyUser"
         />
 
-    <Button
-        android:id="@+id/send"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="120dp"
-        android:layout_marginTop="30dp"
-        android:text="Send Message" />
+    <!--<Button-->
+        <!--android:id="@+id/send"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginLeft="120dp"-->
+        <!--android:layout_marginTop="30dp"-->
+        <!--android:text="Send Message" />-->
 
-    <Button
-        android:id="@+id/Call"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="120dp"
-        android:layout_marginTop="30dp"
-        android:text="Phone Call"
-        />
+    <!--<Button-->
+        <!--android:id="@+id/Call"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginLeft="120dp"-->
+        <!--android:layout_marginTop="30dp"-->
+        <!--android:text="Phone Call"-->
+        <!--/>-->
 </LinearLayout>

@@ -6,10 +6,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".FallDetect">
+
     <Button
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/ButtonOk"
+        android:layout_marginTop="250dp"
+        android:layout_marginLeft="150dp"
+        android:id="@+id/ButtonOOk"
         android:text="I AM ALRIGHT"
 
         />

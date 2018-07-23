@@ -27,8 +27,9 @@ import java.util.Locale;
 public class SendMessage extends AppCompatActivity implements LocationListener {
 
     private static final int MY_PERMISSIONS_REQUEST_SEND_SMS = 0;
-    String mFile = "SharedPreferences", phoneKey = "phoneKey", phone;
-    Location mLocation;
+    String mFile = "SharedPreferences", phoneKey = "phoneKey";
+     String phone;
+     Location mLocation;
     SharedPreferences mSharedPreferences = null;
     List<String> mPhones;
     @Override
@@ -78,6 +79,18 @@ public class SendMessage extends AppCompatActivity implements LocationListener {
          phone = phoneNo;
         if (PackageManager.PERMISSION_GRANTED != ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS)) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.SEND_SMS)) {
+
+                SmsManager smsManager = SmsManager.getDefault();
+                StringBuffer smsBody = new StringBuffer();
+                smsBody.append("http://maps.google.com?q=");
+                smsBody.append(mLocation.getLatitude());
+                smsBody.append(",");
+                smsBody.append(mLocation.getLongitude());
+                smsManager.sendTextMessage(phone, null, smsBody.toString(), null, null);
+                Toast.makeText(getApplicationContext(), "SMS sent to " + phone,
+                        Toast.LENGTH_LONG).show();
+
+
             } else {
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SEND_SMS}, MY_PERMISSIONS_REQUEST_SEND_SMS);
             }
@@ -98,6 +111,7 @@ public class SendMessage extends AppCompatActivity implements LocationListener {
                     smsManager.sendTextMessage(phone, null, smsBody.toString(), null, null);
                     Toast.makeText(getApplicationContext(), "SMS sent to " + phone,
                             Toast.LENGTH_LONG).show();
+
                 }
             }
         }

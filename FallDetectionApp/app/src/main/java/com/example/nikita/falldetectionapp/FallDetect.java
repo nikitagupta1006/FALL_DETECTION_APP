@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,38 +24,49 @@ public class FallDetect extends AppCompatActivity {
 
         private SensorManager sensorManager;
         Button mButtonOk;
-        long mTime, mCurrentTime;
-        int mCount;
-        boolean mFallDetect;
-        boolean falsePositive = false;
-        float mValue, mThreshold, g = 9.81f;
+        long mTime, mRecoveryTime;
+        int mCount = 0, mWalk = 0;
+        boolean mFallDetect = false;
+        float mValue, mThreshold;
+        String mFile = "SharedPreferences";
+        String[] mPhones;
         float[] mAccelerometerData, mMagnetometerData, mEarthAcceleration, mGravity, mRotationMatrix, mInverse;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_fall_detect);
             mTime = System.currentTimeMillis();
-            mEarthAcceleration=new float[16];
-            mInverse=new float[16];
-            mCount=0;
-            mButtonOk = (Button)findViewById(R.id.ButtonOk);
-            mButtonOk.setOnClickListener(new View.OnClickListener() {
+            mEarthAcceleration = new float[16];
+            mInverse = new float[16];
+            mCount = 0;
+            mButtonOk = (Button)findViewById(R.id.ButtonOOk);
+            mButtonOk.setOnClickListener(new View.OnClickListener()
+            {
                 @Override
                 public void onClick(View view) {
                     mFallDetect = false;
-                    falsePositive = false;
                 }
             });
 
-            mFallDetect=false;
-            mThreshold=60/g;
+            mFallDetect = false;
+            mThreshold = 15.0f;
             sensorManager = (SensorManager) this.getSystemService(Context.SENSOR_SERVICE);
             sensorManager.registerListener(sensorlistener, sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_FASTEST);
             sensorManager.registerListener(sensorlistener, sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD), SensorManager.SENSOR_DELAY_FASTEST);
             sensorManager.registerListener(sensorlistener, sensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY), SensorManager.SENSOR_DELAY_FASTEST);
-            if(mCurrentTime >= mTime + 30000 && mFallDetect && !falsePositive) {
-                // send Message and alarm
+
+            if(mFallDetect && System.currentTimeMillis() > mRecoveryTime + 10000) {
+                // message sent
+                mPhones = getSharedPreferences(mFile, 0).getString("PhoneKey", null).split(",");
+                SendMessage sendMessage = new SendMessage();
+                for(int i = 0; i < mPhones.length; i++)
+                    sendMessage.sendSMSMessage(mPhones[i]);
+                //phone call
+                PhoneCall phoneCall = new PhoneCall();
+                phoneCall.makeCall();
             }
+
         }
 
         SensorEventListener sensorlistener = new SensorEventListener() {
@@ -84,30 +96,42 @@ public class FallDetect extends AppCompatActivity {
 
                     android.opengl.Matrix.invertM(mInverse, 0, mRotationMatrix, 0);
                     android.opengl.Matrix.multiplyMV(mEarthAcceleration, 0, mInverse, 0, mAccelerometerData, 0);
-                    if (mValue > mThreshold) {
-                        mCount++;
-                        mTime = System.currentTimeMillis();
-                    }
-                    if(mCurrentTime == mTime + 30000) {
-                        if(mCount >=1) {
-                            if(mValue<mThreshold) {
-                                falsePositive = true;
-                                mFallDetect=true;
-                            }
-                            else
-                                mFallDetect=false;
 
-                        }
+                   if(mValue > mThreshold) {
+                       mCount++;
+                       mTime = System.currentTimeMillis();
+                   }
+                   if(mCount >= 1) {
+                       if (System.currentTimeMillis() <= mTime + 30000) {
+                           if(mValue > mThreshold) {
+                               mWalk++;
+                               mCount++;
+                           }
+                       }
+                       else if((System.currentTimeMillis() == mTime + 30000) && mCount == 1) {
+                           mFallDetect = true;
+                           // start Recovery interval
+                           mRecoveryTime = System.currentTimeMillis();
+                       }
 
-                    }
-                }catch (Exception e) {
+                       else {
+                           if(mWalk >= 3){
+                               mFallDetect = false;
+                           }
+                       }
+                   }
+
+                   }catch (Exception e) {
                     Log.e("error", e.toString());
                 }
             }
         };
+
         public void onStop() {
             super.onStop();
             sensorManager.unregisterListener(sensorlistener);
         }
 
+
     }
+
